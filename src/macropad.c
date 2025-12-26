@@ -12,25 +12,19 @@
 
 #include "usb_descriptors.h"
 #include "util.h"
-#include "Keys/Keys.h"
-#include "Encoder/Encoder.h"
 #include "Lighting/Neopixel.h"
 #include "Lighting/LampArray.h"
 #include "Lighting/LampArrayHidStructs.h"
 
 // Functions
 bool lightingTimerCallback(struct repeating_timer* t);
-bool keyboardTimerCallback(struct repeating_timer* t);
 
 int main() {
     stdio_init_all();
     tusb_init();
-    initKeys();
-    initEncoder();
     NeopixelInit(AUTONOMOUS_LIGHTING_EFFECT, AUTONOMOUS_LIGHTING_COLOR);
     
     struct repeating_timer lightingTimer;
-    struct repeating_timer keyboardTimer;
 
     // Set up timer interrupts
     add_repeating_timer_ms(
@@ -39,18 +33,11 @@ int main() {
         NULL,                   // Passed in callback data
         &lightingTimer);        // Timer object
 
-    add_repeating_timer_ms(
-        KEY_POLLING_RATE,       // Polling rate of GPIO pins
-        keyboardTimerCallback,  // Callback to update pin state of GPIO outputs
-        NULL,                   // No user data needed
-        &keyboardTimer);        // Timer object
-
     while (1) { 
         tud_task();
     }
 
     cancel_repeating_timer(&lightingTimer);
-    cancel_repeating_timer(&keyboardTimer);
     
     return 0;
 }
@@ -61,20 +48,6 @@ int main() {
 
 bool lightingTimerCallback(struct repeating_timer* t) {
     NeopixelUpdateEffect();
-
-    return true;
-}
-
-bool keyboardTimerCallback(struct repeating_timer *t) {
-    // Remote wakeup
-    if (tud_suspended()) {
-        // Wake up host if we are in suspend mode
-        // and REMOTE_WAKEUP feature is enabled by host
-        tud_remote_wakeup();
-    } 
-    else if (tud_hid_ready()) {
-        sendKeyboardReport();
-    }
 
     return true;
 }

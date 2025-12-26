@@ -6,7 +6,6 @@
 #include "Neopixel.h"
 #include "../util.h"
 #include "tusb.h"
-#include "../Keys/keymap.h"
 
 static uint16_t currentLampId = 0;
 
@@ -36,7 +35,7 @@ uint16_t GetLampAttributesReport(uint8_t* buffer) {
         255,                                                    // Green level count
         1,                                                      // Intensity
         1,                                                      // Is Programmable
-        layers[0].macros[LampIdToKey(currentLampId)].keycode[0] // InputBinding
+        0                                                       // InputBinding
     };
 
     memcpy(buffer, &report, sizeof(LampAttributesResponseReport));
