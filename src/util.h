@@ -12,15 +12,15 @@
 #define AUTONOMOUS_LIGHTING_INTERVAL_MS 5000                            // 5 second interval for autonomous lighting
 
 // Neopixel                         
-#define NEOPIXEL                    19
+#define NEOPIXEL                    16
 #define NEOPIXEL_PIO                pio0
 #define NEOPIXEL_BITRATE            800000
 #define NEOPIXEL_COUNT              2
 
 // LampArray Attributes
 #define LAMPARRAY_LAMP_COUNT        NEOPIXEL_COUNT
-#define LAMPARRAY_WIDTH             800000    // 5.9 cm 
-#define LAMPARRAY_HEIGHT            300000   // 10.4 cm
+#define LAMPARRAY_WIDTH             800000    // 80 cm 
+#define LAMPARRAY_HEIGHT            300000   // 30 cm
 #define LAMPARRAY_DEPTH             25000    // 2.5 cm
 #define LAMPARRAY_KIND              4        // Peripheral Device
 
@@ -30,7 +30,6 @@ static Position LampPositions[NEOPIXEL_COUNT] = {
 };
 
 // Misc.
-#define RED_LED                     13
 #define AUTONOMOUS_LIGHTING_COLOR   (LampColor){255, 0, 0}
 #define AUTONOMOUS_LIGHTING_EFFECT  BLINK
 
